@@ -72,6 +72,11 @@ Check either...
           }
         },
         "type" : "object"
+      },
+      "ThirdExampleType" : {
+        "type" : "string",
+        "format" : "date",
+        "examples" : [ "2022-03-10" ]
       }
     }
   },
@@ -141,6 +146,27 @@ Check either...
         "summary" : "Second",
         "tags" : [ "Greeting Resource" ]
       }
+    },
+    "/hello/third" : {
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ThirdExampleType"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          }
+        },
+        "summary" : "Third",
+        "tags" : [ "Greeting Resource" ]
+      }
     }
   },
   "info" : {
@@ -164,14 +190,14 @@ Check either...
 {
   "openapi" : "3.0.3",
   "info" : {
-    "title" : "openapi-schema-problem-315 API",
+    "title" : "openapi-schema-problem API",
     "version" : "1.0.0-SNAPSHOT"
   },
   "servers" : [ {
-    "url" : "http://localhost:8081",
+    "url" : "http://localhost:8080",
     "description" : "Auto generated value"
   }, {
-    "url" : "http://0.0.0.0:8081",
+    "url" : "http://0.0.0.0:8080",
     "description" : "Auto generated value"
   } ],
   "paths" : {
@@ -229,6 +255,25 @@ Check either...
           }
         }
       }
+    },
+    "/hello/third" : {
+      "post" : {
+        "tags" : [ "Greeting Resource" ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ThirdExampleType"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          }
+        }
+      }
     }
   },
   "components" : {
@@ -260,6 +305,11 @@ Check either...
             "type" : "string"
           }
         }
+      },
+      "ThirdExampleType" : {
+        "format" : "date",
+        "type" : "string",
+        "example" : "2022-03-10"
       }
     }
   }
