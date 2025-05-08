@@ -50,8 +50,8 @@ public class SecondExampleType {
 
     @Override
     public String toString() {
-        return "ExampleTypeA{" +
-                "value='" + value + '\'' +
+        return "SecondExampleType{" +
+                "value=" + value +
                 '}';
     }
 }

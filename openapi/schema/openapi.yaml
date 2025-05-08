@@ -40,6 +40,11 @@ components:
         currency:
           type: string
       type: object
+    ThirdExampleType:
+      type: string
+      format: date
+      examples:
+      - 2022-03-10
 paths:
   /hello:
     get:
@@ -83,6 +88,20 @@ paths:
         "400":
           description: Bad Request
       summary: Second
+      tags:
+      - Greeting Resource
+  /hello/third:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ThirdExampleType"
+        required: true
+      responses:
+        "201":
+          description: Created
+      summary: Third
       tags:
       - Greeting Resource
 info:
