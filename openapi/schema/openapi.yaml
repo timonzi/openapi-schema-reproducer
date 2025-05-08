@@ -1,0 +1,95 @@
+---
+openapi: 3.1.0
+components:
+  schemas:
+    FirstExampleImpl:
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+    FirstExampleType:
+      $ref: "#/components/schemas/FirstExampleImpl"
+      type: object
+      properties:
+        value:
+          $ref: "#/components/schemas/FirstExampleImpl"
+        internalValue:
+          type: string
+        composite:
+          type: boolean
+        "null":
+          type: boolean
+    SecondExampleType:
+      $ref: "#/components/schemas/SecondExampleValue"
+      type: object
+      properties:
+        value:
+          $ref: "#/components/schemas/FirstExampleImpl"
+        internalValue1:
+          type: string
+        internalValue2:
+          type: boolean
+        "null":
+          type: boolean
+    SecondExampleValue:
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+      type: object
+paths:
+  /hello:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+      summary: Hello
+      tags:
+      - Greeting Resource
+  /hello/first:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FirstExampleType"
+        required: true
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+      summary: First
+      tags:
+      - Greeting Resource
+  /hello/second:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SecondExampleType"
+        required: true
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+      summary: Second
+      tags:
+      - Greeting Resource
+info:
+  title: openapi-schema-problem API
+  version: 1.0.0-SNAPSHOT
+servers:
+- url: http://localhost:8080
+  description: Auto generated value
+- url: http://0.0.0.0:8080
+  description: Auto generated value
