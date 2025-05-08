@@ -3,12 +3,73 @@
 
 ## Problem
 
-Check either...
+I want to have only the defined values in my schema, but I get also some properties, which should be ignored also values
+of getter methods!? 
+
+Check...
+
 * [Swagger UI](http://localhost:8080/q/swagger-ui/#/)
 * [openapi.json](./openapi/schema/openapi.json)
 * [openapi.yaml](./openapi/schema/openapi.yaml)
 
-### Schema with Quarkus 3.20.0 (JSON)
+### Example: FirstExampleType
+
+Should be 
+
+```json
+"FirstExampleImpl" : {
+  "type" : "object",
+  "properties" : {
+    "amount" : {
+      "type" : "number"
+    },
+    "currency" : {
+      "type" : "string"
+    }
+  }
+},
+"FirstExampleType" : {
+  "$ref" : "#/components/schemas/FirstExampleImpl"
+},
+```
+
+but is
+
+```json
+"FirstExampleImpl" : {
+  "type" : "object",
+  "properties" : {
+    "amount" : {
+      "type" : "number"
+    },
+    "currency" : {
+      "type" : "string"
+    }
+  }
+},
+"FirstExampleType" : {
+  "$ref" : "#/components/schemas/FirstExampleImpl",
+  "type" : "object",
+  "properties" : {
+    "value" : {
+      "$ref" : "#/components/schemas/FirstExampleImpl"
+    },
+    "internalValue" : {
+      "type" : "string"
+    },
+    "composite" : {
+      "type" : "boolean"
+    },
+    "null" : {
+      "type" : "boolean"
+    }
+  }
+},
+```
+
+
+
+## Schema with Quarkus 3.20.0 (JSON)
 
 ```json
 {
@@ -184,7 +245,7 @@ Check either...
 ```
 
 
-### Schema with Quarkus 3.15.4 (JSON)
+## Schema with Quarkus 3.15.4 (JSON)
 
 ```json
 {
