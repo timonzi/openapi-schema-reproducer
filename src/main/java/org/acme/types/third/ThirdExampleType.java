@@ -6,7 +6,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.Date;
 
-// Hint: Works only with `type = SchemaType.STRING`, which was not the case with older Quarkus versions (at least with 3.8.6)
+// Hint: Works only with `type = SchemaType.STRING`, which was not the case with older Quarkus versions (at least with 3.8.6 and 3.15.4)
 @Schema(implementation = Date.class, type = SchemaType.STRING)
 public class ThirdExampleType {
 
