@@ -44,6 +44,18 @@ paths:
       responses:
         "201":
           description: Created
+  /hello/third:
+    post:
+      tags:
+      - Greeting Resource
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ThirdExampleType"
+      responses:
+        "201":
+          description: Created
 components:
   schemas:
     FirstExampleImpl:
@@ -64,3 +76,7 @@ components:
           type: number
         currency:
           type: string
+    ThirdExampleType:
+      format: date
+      type: string
+      example: 2022-03-10

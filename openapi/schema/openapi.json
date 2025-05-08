@@ -66,6 +66,25 @@
           }
         }
       }
+    },
+    "/hello/third" : {
+      "post" : {
+        "tags" : [ "Greeting Resource" ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ThirdExampleType"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          }
+        }
+      }
     }
   },
   "components" : {
@@ -97,6 +116,11 @@
             "type" : "string"
           }
         }
+      },
+      "ThirdExampleType" : {
+        "format" : "date",
+        "type" : "string",
+        "example" : "2022-03-10"
       }
     }
   }
