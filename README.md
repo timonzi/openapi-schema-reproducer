@@ -1,10 +1,6 @@
 # openapi-schema-problem
 
-
-## Problem
-
-I want to have only the defined values in my schema, but I get also some properties, which should be ignored also values
-of getter methods!? 
+## General
 
 Check...
 
@@ -12,12 +8,23 @@ Check...
 * [openapi.json](./openapi/schema/openapi.json)
 * [openapi.yaml](./openapi/schema/openapi.yaml)
 
-### Example: FirstExampleType
+Compare generated schemas with those in Quarkus 3.15.4 (see branch `quarkus-3.15.4`).
 
-Should be 
+## Problems
+
+### Szenario 1: Merge of `implementation` definition with detected properties/methods
+
+* Example type: `UseSchemaImplementationType`
+    * Uses `UseSchemaImplementationImpl` for `@Schema(implemenation)` definition
+
+The type class (`UseSchemaImplementationType`) has some internal properties and also some methods.
+
+#### Quarkus 3.20.0
+
+When I check the schema with Quarkus 3.20.0, I see the following schemas:
 
 ```json
-"FirstExampleImpl" : {
+"UseSchemaImplementationImpl" : {
   "type" : "object",
   "properties" : {
     "amount" : {
@@ -28,31 +35,12 @@ Should be
     }
   }
 },
-"FirstExampleType" : {
-  "$ref" : "#/components/schemas/FirstExampleImpl"
-},
-```
-
-but is
-
-```json
-"FirstExampleImpl" : {
-  "type" : "object",
-  "properties" : {
-    "amount" : {
-      "type" : "number"
-    },
-    "currency" : {
-      "type" : "string"
-    }
-  }
-},
-"FirstExampleType" : {
-  "$ref" : "#/components/schemas/FirstExampleImpl",
+"UseSchemaImplementationType" : {
+  "$ref" : "#/components/schemas/UseSchemaImplementationImpl",
   "type" : "object",
   "properties" : {
     "value" : {
-      "$ref" : "#/components/schemas/FirstExampleImpl"
+      "type" : "string"
     },
     "internalValue" : {
       "type" : "string"
@@ -67,312 +55,154 @@ but is
 },
 ```
 
+The problem: I have the `ref` definition and also the properties and methods of `UseSchemaImplementationType`.
 
+Side note: I don't understand why methods are part of the schema!?
 
-## Schema with Quarkus 3.20.0 (JSON)
+#### Expected schemas
+
+This is what I get with Quarkus 3.15.4 and what I expect:
 
 ```json
-{
-  "openapi" : "3.1.0",
-  "components" : {
-    "schemas" : {
-      "FirstExampleImpl" : {
-        "type" : "object",
-        "properties" : {
-          "amount" : {
-            "type" : "number"
-          },
-          "currency" : {
-            "type" : "string"
-          }
-        }
-      },
-      "FirstExampleType" : {
-        "$ref" : "#/components/schemas/FirstExampleImpl",
-        "type" : "object",
-        "properties" : {
-          "value" : {
-            "$ref" : "#/components/schemas/FirstExampleImpl"
-          },
-          "internalValue" : {
-            "type" : "string"
-          },
-          "composite" : {
-            "type" : "boolean"
-          },
-          "null" : {
-            "type" : "boolean"
-          }
-        }
-      },
-      "SecondExampleType" : {
-        "$ref" : "#/components/schemas/SecondExampleValue",
-        "type" : "object",
-        "properties" : {
-          "value" : {
-            "$ref" : "#/components/schemas/FirstExampleImpl"
-          },
-          "internalValue1" : {
-            "type" : "string"
-          },
-          "internalValue2" : {
-            "type" : "boolean"
-          },
-          "null" : {
-            "type" : "boolean"
-          }
-        }
-      },
-      "SecondExampleValue" : {
-        "properties" : {
-          "amount" : {
-            "type" : "number"
-          },
-          "currency" : {
-            "type" : "string"
-          }
-        },
-        "type" : "object"
-      },
-      "ThirdExampleType" : {
-        "type" : "string",
-        "format" : "date",
-        "examples" : [ "2022-03-10" ]
-      }
+"UseSchemaImplementationImpl" : {
+  "type" : "object",
+  "properties" : {
+    "amount" : {
+      "type" : "number"
+    },
+    "currency" : {
+      "type" : "string"
     }
-  },
-  "paths" : {
-    "/hello" : {
-      "get" : {
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "text/plain" : {
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
-          }
-        },
-        "summary" : "Hello",
-        "tags" : [ "Greeting Resource" ]
-      }
-    },
-    "/hello/first" : {
-      "post" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/FirstExampleType"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "201" : {
-            "description" : "Created"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "First",
-        "tags" : [ "Greeting Resource" ]
-      }
-    },
-    "/hello/second" : {
-      "post" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SecondExampleType"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "201" : {
-            "description" : "Created"
-          },
-          "400" : {
-            "description" : "Bad Request"
-          }
-        },
-        "summary" : "Second",
-        "tags" : [ "Greeting Resource" ]
-      }
-    },
-    "/hello/third" : {
-      "post" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/ThirdExampleType"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "201" : {
-            "description" : "Created"
-          }
-        },
-        "summary" : "Third",
-        "tags" : [ "Greeting Resource" ]
-      }
-    }
-  },
-  "info" : {
-    "title" : "openapi-schema-problem API",
-    "version" : "1.0.0-SNAPSHOT"
-  },
-  "servers" : [ {
-    "url" : "http://localhost:8080",
-    "description" : "Auto generated value"
-  }, {
-    "url" : "http://0.0.0.0:8080",
-    "description" : "Auto generated value"
-  } ]
-}
+  }
+},
+"UseSchemaImplementationType" : {
+  "$ref" : "#/components/schemas/UseSchemaImplementationImpl"
+},
 ```
 
+### Szenario 2: Merge of `ref` definition with detected properties/methods
 
-## Schema with Quarkus 3.15.4 (JSON)
+* Example type: `UseSchemaRefType`
+    * Uses `UseSchemaRefDef` for `@Schema(ref)` definition
+
+The type class (`UseSchemaRefType`) has some internal properties and also some methods.
+
+
+#### Quarkus 3.20.0
+
+When I check the schema with Quarkus 3.20.0, I see the following schemas:
 
 ```json
-{
-  "openapi" : "3.0.3",
-  "info" : {
-    "title" : "openapi-schema-problem API",
-    "version" : "1.0.0-SNAPSHOT"
-  },
-  "servers" : [ {
-    "url" : "http://localhost:8080",
-    "description" : "Auto generated value"
-  }, {
-    "url" : "http://0.0.0.0:8080",
-    "description" : "Auto generated value"
-  } ],
-  "paths" : {
-    "/hello" : {
-      "get" : {
-        "tags" : [ "Greeting Resource" ],
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "text/plain" : {
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
-          }
-        }
-      }
+"MonetaryAmountSchema" : {
+  "properties" : {
+    "amount" : {
+      "type" : "number"
     },
-    "/hello/first" : {
-      "post" : {
-        "tags" : [ "Greeting Resource" ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/FirstExampleType"
-              }
-            }
-          }
-        },
-        "responses" : {
-          "201" : {
-            "description" : "Created"
-          }
-        }
-      }
-    },
-    "/hello/second" : {
-      "post" : {
-        "tags" : [ "Greeting Resource" ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/SecondExampleType"
-              }
-            }
-          }
-        },
-        "responses" : {
-          "201" : {
-            "description" : "Created"
-          }
-        }
-      }
-    },
-    "/hello/third" : {
-      "post" : {
-        "tags" : [ "Greeting Resource" ],
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/ThirdExampleType"
-              }
-            }
-          }
-        },
-        "responses" : {
-          "201" : {
-            "description" : "Created"
-          }
-        }
-      }
+    "currency" : {
+      "type" : "string"
     }
   },
-  "components" : {
-    "schemas" : {
-      "FirstExampleImpl" : {
-        "type" : "object",
-        "properties" : {
-          "amount" : {
-            "type" : "number"
-          },
-          "currency" : {
-            "type" : "string"
-          }
-        }
-      },
-      "FirstExampleType" : {
-        "$ref" : "#/components/schemas/FirstExampleImpl"
-      },
-      "SecondExampleType" : {
-        "$ref" : "#/components/schemas/SecondExampleValue"
-      },
-      "SecondExampleValue" : {
-        "type" : "object",
-        "properties" : {
-          "amount" : {
-            "type" : "number"
-          },
-          "currency" : {
-            "type" : "string"
-          }
-        }
-      },
-      "ThirdExampleType" : {
-        "format" : "date",
-        "type" : "string",
-        "example" : "2022-03-10"
-      }
+  "type" : "object"
+},
+"UseSchemaRefType" : {
+  "$ref" : "#/components/schemas/MonetaryAmountSchema",
+  "type" : "object",
+  "properties" : {
+    "value" : {
+      "type" : "string"
+    },
+    "internalValue" : {
+      "type" : "string"
+    },
+    "composite" : {
+      "type" : "boolean"
+    },
+    "null" : {
+      "type" : "boolean"
     }
   }
 }
 ```
+
+The problem: I have the `ref` definition and also the properties and methods of `UseSchemaRefType`.
+
+Side note: I don't understand why methods are part of the schema!?
+
+#### Expected schemas
+
+This is what I get with Quarkus 3.15.4 and what I expect:
+
+```json
+"MonetaryAmountSchema" : {
+  "type" : "object",
+  "properties" : {
+    "amount" : {
+      "type" : "number"
+    },
+    "currency" : {
+      "type" : "string"
+    }
+  }
+},
+"UseSchemaRefType" : {
+  "$ref" : "#/components/schemas/MonetaryAmountSchema"
+}
+```
+
+
+### Szenario 3: Use of native type for `implementation` definition
+
+* Example type: `UseNativeType`
+    * Uses `Date` for `@Schema(implementation)` definition
+
+The type class (`UseNativeType`) has some internal properties and also some methods.
+
+#### Quarkus 3.20.0
+
+When I check the schema with Quarkus 3.20.0, I see the following schemas:
+
+```json
+"Date" : {
+  "type" : "string",
+  "format" : "date",
+  "examples" : [ "2022-03-10" ]
+},
+"UseNativeType" : {
+  "$ref" : "#/components/schemas/Date",
+  "type" : "object",
+  "properties" : {
+    "value" : {
+      "$ref" : "#/components/schemas/Date"
+    },
+    "internalValue" : {
+      "type" : "string"
+    },
+    "composite" : {
+      "type" : "boolean"
+    },
+    "null" : {
+      "type" : "boolean"
+    }
+  }
+},
+```
+
+The problem: I have the `ref` definition and also the properties and methods of `UseNativeType`.
+
+Side note: I don't understand why methods are part of the schema!?
+
+#### Expected schemas
+
+This is what I get with Quarkus 3.15.4 and what I expect:
+
+```json
+"Date" : {
+  "format" : "date",
+  "type" : "string",
+  "example" : "2022-03-10"
+},
+"UseNativeType" : {
+  "$ref" : "#/components/schemas/Date"
+},
+```
+
