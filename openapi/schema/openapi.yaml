@@ -107,7 +107,7 @@ paths:
       tags:
       - Greeting Resource
 info:
-  title: openapi-schema-problems API
+  title: openapi-schema-reproducer API
   version: 1.0.0-SNAPSHOT
 servers:
 - url: http://localhost:8080
