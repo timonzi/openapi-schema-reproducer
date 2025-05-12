@@ -71,7 +71,7 @@ paths:
           description: Created
         "400":
           description: Bad Request
-      summary: Third
+      summary: Use Native Type
       tags:
       - Greeting Resource
   /schema/UseSchemaImplementationType:
@@ -87,7 +87,7 @@ paths:
           description: Created
         "400":
           description: Bad Request
-      summary: First
+      summary: Use Schema Implementation Type
       tags:
       - Greeting Resource
   /schema/UseSchemaRefType:
@@ -103,7 +103,7 @@ paths:
           description: Created
         "400":
           description: Bad Request
-      summary: Second
+      summary: Use Schema Ref Type
       tags:
       - Greeting Resource
 info:
