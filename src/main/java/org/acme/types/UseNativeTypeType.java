@@ -1,17 +1,15 @@
 package org.acme.types;
 
 
-import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.util.Date;
 
 /**
- * Hint: Works only with `type = SchemaType.STRING`, which was not the case with older Quarkus versions (at least with 3.8.6 and 3.15.4)
- * Without this, it uses schema type `OBJECT`
+ * Hint: Works only with <code>type = SchemaType.STRING</code>, which was not the case with older Quarkus versions (at least with 3.8.6 and 3.15.4)
+ * Without this, it uses schema type <code>OBJECT</code> and includes all the internal properties (and also methods) again.
  */
-
-@Schema(implementation = Date.class, type = SchemaType.STRING)
+@Schema(implementation = Date.class)
 public class UseNativeTypeType {
 
     private final Date value;
