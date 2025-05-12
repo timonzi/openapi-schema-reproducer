@@ -2,7 +2,23 @@
   "openapi" : "3.1.0",
   "components" : {
     "schemas" : {
-      "FirstExampleImpl" : {
+      "MonetaryAmountSchema" : {
+        "properties" : {
+          "amount" : {
+            "type" : "number"
+          },
+          "currency" : {
+            "type" : "string"
+          }
+        },
+        "type" : "object"
+      },
+      "UseNativeTypeType" : {
+        "type" : "string",
+        "format" : "date",
+        "examples" : [ "2022-03-10" ]
+      },
+      "UseSchemaImplementationImpl" : {
         "type" : "object",
         "properties" : {
           "amount" : {
@@ -13,12 +29,12 @@
           }
         }
       },
-      "FirstExampleType" : {
-        "$ref" : "#/components/schemas/FirstExampleImpl",
+      "UseSchemaImplementationType" : {
+        "$ref" : "#/components/schemas/UseSchemaImplementationImpl",
         "type" : "object",
         "properties" : {
           "value" : {
-            "$ref" : "#/components/schemas/FirstExampleImpl"
+            "type" : "string"
           },
           "internalValue" : {
             "type" : "string"
@@ -31,68 +47,55 @@
           }
         }
       },
-      "SecondExampleType" : {
-        "$ref" : "#/components/schemas/SecondExampleValue",
+      "UseSchemaRefType" : {
+        "$ref" : "#/components/schemas/MonetaryAmountSchema",
         "type" : "object",
         "properties" : {
           "value" : {
-            "$ref" : "#/components/schemas/FirstExampleImpl"
-          },
-          "internalValue1" : {
             "type" : "string"
           },
-          "internalValue2" : {
+          "internalValue" : {
+            "type" : "string"
+          },
+          "composite" : {
             "type" : "boolean"
           },
           "null" : {
             "type" : "boolean"
           }
         }
-      },
-      "SecondExampleValue" : {
-        "properties" : {
-          "amount" : {
-            "type" : "number"
-          },
-          "currency" : {
-            "type" : "string"
-          }
-        },
-        "type" : "object"
-      },
-      "ThirdExampleType" : {
-        "type" : "string",
-        "format" : "date",
-        "examples" : [ "2022-03-10" ]
       }
     }
   },
   "paths" : {
-    "/hello" : {
-      "get" : {
-        "responses" : {
-          "200" : {
-            "description" : "OK",
-            "content" : {
-              "text/plain" : {
-                "schema" : {
-                  "type" : "string"
-                }
-              }
-            }
-          }
-        },
-        "summary" : "Hello",
-        "tags" : [ "Greeting Resource" ]
-      }
-    },
-    "/hello/first" : {
+    "/schema/UseNativeTypeType" : {
       "post" : {
         "requestBody" : {
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/FirstExampleType"
+                "$ref" : "#/components/schemas/UseNativeTypeType"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Created"
+          }
+        },
+        "summary" : "Third",
+        "tags" : [ "Greeting Resource" ]
+      }
+    },
+    "/schema/UseSchemaImplementationType" : {
+      "post" : {
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UseSchemaImplementationType"
               }
             }
           },
@@ -110,13 +113,13 @@
         "tags" : [ "Greeting Resource" ]
       }
     },
-    "/hello/second" : {
+    "/schema/UseSchemaRefType" : {
       "post" : {
         "requestBody" : {
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/SecondExampleType"
+                "$ref" : "#/components/schemas/UseSchemaRefType"
               }
             }
           },
@@ -133,31 +136,10 @@
         "summary" : "Second",
         "tags" : [ "Greeting Resource" ]
       }
-    },
-    "/hello/third" : {
-      "post" : {
-        "requestBody" : {
-          "content" : {
-            "application/json" : {
-              "schema" : {
-                "$ref" : "#/components/schemas/ThirdExampleType"
-              }
-            }
-          },
-          "required" : true
-        },
-        "responses" : {
-          "201" : {
-            "description" : "Created"
-          }
-        },
-        "summary" : "Third",
-        "tags" : [ "Greeting Resource" ]
-      }
     }
   },
   "info" : {
-    "title" : "openapi-schema-problem API",
+    "title" : "openapi-schema-problems API",
     "version" : "1.0.0-SNAPSHOT"
   },
   "servers" : [ {

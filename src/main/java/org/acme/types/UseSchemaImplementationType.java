@@ -1,28 +1,28 @@
-package org.acme.types.first;
+package org.acme.types;
 
 
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.math.BigDecimal;
 
-@Schema(implementation = FirstExampleImpl.class)
-public class FirstExampleType {
+@Schema(implementation = UseSchemaImplementationImpl.class)
+public class UseSchemaImplementationType {
 
-    private final FirstExampleImpl value;
+    private final String value;
 
     private final String internalValue = "internalValue";
     private final Boolean composite = true;
 
 
-    public FirstExampleType(
+    public UseSchemaImplementationType(
             final BigDecimal amount,
             final String currency
     ) {
-        this.value = new FirstExampleImpl(amount, currency);
+        this.value = amount + " " + currency;
     }
 
 
-    public FirstExampleType(final FirstExampleImpl value) {
+    public UseSchemaImplementationType(final String value) {
         this.value = value;
     }
 
@@ -32,7 +32,7 @@ public class FirstExampleType {
     }
 
 
-    public FirstExampleImpl getValue() {
+    public String getValue() {
         return value;
     }
 
@@ -49,8 +49,10 @@ public class FirstExampleType {
 
     @Override
     public String toString() {
-        return "ExampleTypeA{" +
+        return "UseSchemaImplementationType{" +
                 "value='" + value + '\'' +
+                ", internalValue='" + internalValue + '\'' +
+                ", composite=" + composite +
                 '}';
     }
 }
