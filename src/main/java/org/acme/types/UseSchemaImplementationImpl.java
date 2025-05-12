@@ -1,14 +1,14 @@
-package org.acme.types.first;
+package org.acme.types;
 
 import java.math.BigDecimal;
 
-public class FirstExampleImpl {
+public class UseSchemaImplementationImpl {
 
     private BigDecimal amount;
     private String currency;
 
 
-    public FirstExampleImpl(
+    public UseSchemaImplementationImpl(
             final BigDecimal amount,
             final String currency
     ) {
@@ -39,7 +39,7 @@ public class FirstExampleImpl {
 
     @Override
     public String toString() {
-        return "MonetaryAmount{" +
+        return "UseSchemaImplementationImpl{" +
                 "amount=" + amount +
                 ", currency='" + currency + '\'' +
                 '}';

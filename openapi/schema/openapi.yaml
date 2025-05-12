@@ -1,82 +1,102 @@
 ---
-openapi: 3.0.3
+openapi: 3.1.0
+components:
+  schemas:
+    MonetaryAmountSchema:
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+      type: object
+    UseNativeTypeType:
+      type: string
+      format: date
+      examples:
+      - 2022-03-10
+    UseSchemaImplementationImpl:
+      type: object
+      properties:
+        amount:
+          type: number
+        currency:
+          type: string
+    UseSchemaImplementationType:
+      $ref: "#/components/schemas/UseSchemaImplementationImpl"
+      type: object
+      properties:
+        value:
+          type: string
+        internalValue:
+          type: string
+        composite:
+          type: boolean
+        "null":
+          type: boolean
+    UseSchemaRefType:
+      $ref: "#/components/schemas/MonetaryAmountSchema"
+      type: object
+      properties:
+        value:
+          type: string
+        internalValue:
+          type: string
+        composite:
+          type: boolean
+        "null":
+          type: boolean
+paths:
+  /schema/UseNativeTypeType:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UseNativeTypeType"
+        required: true
+      responses:
+        "201":
+          description: Created
+      summary: Third
+      tags:
+      - Greeting Resource
+  /schema/UseSchemaImplementationType:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UseSchemaImplementationType"
+        required: true
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+      summary: First
+      tags:
+      - Greeting Resource
+  /schema/UseSchemaRefType:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UseSchemaRefType"
+        required: true
+      responses:
+        "201":
+          description: Created
+        "400":
+          description: Bad Request
+      summary: Second
+      tags:
+      - Greeting Resource
 info:
-  title: openapi-schema-problem API
+  title: openapi-schema-problems API
   version: 1.0.0-SNAPSHOT
 servers:
 - url: http://localhost:8080
   description: Auto generated value
 - url: http://0.0.0.0:8080
   description: Auto generated value
-paths:
-  /hello:
-    get:
-      tags:
-      - Greeting Resource
-      responses:
-        "200":
-          description: OK
-          content:
-            text/plain:
-              schema:
-                type: string
-  /hello/first:
-    post:
-      tags:
-      - Greeting Resource
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/FirstExampleType"
-      responses:
-        "201":
-          description: Created
-  /hello/second:
-    post:
-      tags:
-      - Greeting Resource
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/SecondExampleType"
-      responses:
-        "201":
-          description: Created
-  /hello/third:
-    post:
-      tags:
-      - Greeting Resource
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ThirdExampleType"
-      responses:
-        "201":
-          description: Created
-components:
-  schemas:
-    FirstExampleImpl:
-      type: object
-      properties:
-        amount:
-          type: number
-        currency:
-          type: string
-    FirstExampleType:
-      $ref: "#/components/schemas/FirstExampleImpl"
-    SecondExampleType:
-      $ref: "#/components/schemas/SecondExampleValue"
-    SecondExampleValue:
-      type: object
-      properties:
-        amount:
-          type: number
-        currency:
-          type: string
-    ThirdExampleType:
-      format: date
-      type: string
-      example: 2022-03-10
