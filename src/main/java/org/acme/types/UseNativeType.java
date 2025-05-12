@@ -10,7 +10,7 @@ import java.util.Date;
  * Without this, it uses schema type <code>OBJECT</code> and includes all the internal properties (and also methods) again.
  */
 @Schema(implementation = Date.class)
-public class UseNativeTypeType {
+public class UseNativeType {
 
     private final Date value;
 
@@ -18,12 +18,12 @@ public class UseNativeTypeType {
     private final Boolean composite = true;
 
 
-    public UseNativeTypeType() {
+    public UseNativeType() {
         this.value = new Date();
     }
 
 
-    public UseNativeTypeType(final Date value) {
+    public UseNativeType(final Date value) {
         this.value = value;
     }
 

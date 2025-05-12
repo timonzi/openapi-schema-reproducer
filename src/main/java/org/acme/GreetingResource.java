@@ -4,7 +4,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.core.MediaType;
-import org.acme.types.UseNativeTypeType;
+import org.acme.types.UseNativeType;
 import org.acme.types.UseSchemaImplementationType;
 import org.acme.types.UseSchemaRefType;
 import org.slf4j.Logger;
@@ -34,8 +34,8 @@ public class GreetingResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Path("/UseNativeTypeType")
-    public void third(final UseNativeTypeType type) {
+    @Path("/UseNativeType")
+    public void third(final UseNativeType type) {
         logger.info(type.toString());
     }
 }
