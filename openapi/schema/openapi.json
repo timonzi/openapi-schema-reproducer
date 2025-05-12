@@ -18,7 +18,7 @@
         },
         "type" : "object"
       },
-      "UseNativeTypeType" : {
+      "UseNativeType" : {
         "$ref" : "#/components/schemas/Date",
         "type" : "object",
         "properties" : {
@@ -86,13 +86,13 @@
     }
   },
   "paths" : {
-    "/schema/UseNativeTypeType" : {
+    "/schema/UseNativeType" : {
       "post" : {
         "requestBody" : {
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/UseNativeTypeType"
+                "$ref" : "#/components/schemas/UseNativeType"
               }
             }
           },

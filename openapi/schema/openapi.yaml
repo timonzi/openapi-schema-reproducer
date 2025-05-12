@@ -14,7 +14,7 @@ components:
         currency:
           type: string
       type: object
-    UseNativeTypeType:
+    UseNativeType:
       $ref: "#/components/schemas/Date"
       type: object
       properties:
@@ -58,13 +58,13 @@ components:
         "null":
           type: boolean
 paths:
-  /schema/UseNativeTypeType:
+  /schema/UseNativeType:
     post:
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UseNativeTypeType"
+              $ref: "#/components/schemas/UseNativeType"
         required: true
       responses:
         "201":
