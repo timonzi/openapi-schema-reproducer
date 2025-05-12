@@ -371,7 +371,7 @@ This is what I get with Quarkus 3.15.4 and what I expect:
     }
   },
   "info" : {
-    "title" : "openapi-schema-problems API",
+    "title" : "openapi-schema-reproducer API",
     "version" : "1.0.0-SNAPSHOT"
   },
   "servers" : [ {
