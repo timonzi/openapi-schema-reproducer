@@ -19,7 +19,7 @@ public class GreetingResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/UseSchemaImplementationType")
-    public void first(final UseSchemaImplementationType type) {
+    public void useSchemaImplementationType(final UseSchemaImplementationType type) {
         logger.info(type.toString());
     }
 
@@ -27,7 +27,7 @@ public class GreetingResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/UseSchemaRefType")
-    public void second(final UseSchemaRefType type) {
+    public void useSchemaRefType(final UseSchemaRefType type) {
         logger.info(type.toString());
     }
 
@@ -35,7 +35,7 @@ public class GreetingResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Path("/UseNativeType")
-    public void third(final UseNativeType type) {
+    public void useNativeType(final UseNativeType type) {
         logger.info(type.toString());
     }
 }
