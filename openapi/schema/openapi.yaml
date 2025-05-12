@@ -2,6 +2,11 @@
 openapi: 3.1.0
 components:
   schemas:
+    Date:
+      type: string
+      format: date
+      examples:
+      - 2022-03-10
     MonetaryAmountSchema:
       properties:
         amount:
@@ -10,10 +15,17 @@ components:
           type: string
       type: object
     UseNativeTypeType:
-      type: string
-      format: date
-      examples:
-      - 2022-03-10
+      $ref: "#/components/schemas/Date"
+      type: object
+      properties:
+        value:
+          $ref: "#/components/schemas/Date"
+        internalValue:
+          type: string
+        composite:
+          type: boolean
+        "null":
+          type: boolean
     UseSchemaImplementationImpl:
       type: object
       properties:
@@ -57,6 +69,8 @@ paths:
       responses:
         "201":
           description: Created
+        "400":
+          description: Bad Request
       summary: Third
       tags:
       - Greeting Resource
