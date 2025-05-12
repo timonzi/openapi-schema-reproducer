@@ -6,11 +6,11 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import java.util.Date;
 
 /**
- * Hint: Works also without `type = SchemaType.STRING`, which is not the case for Quarkus 3.20.0
+ * Hint: Works only with <code>type = SchemaType.STRING</code>, which was not the case with older Quarkus versions (at least with 3.8.6 and 3.15.4)
+ * Without this, it uses schema type <code>OBJECT</code> and includes all the internal properties (and also methods) again.
  */
-
 @Schema(implementation = Date.class)
-public class UseNativeTypeType {
+public class UseNativeType {
 
     private final Date value;
 
@@ -18,12 +18,12 @@ public class UseNativeTypeType {
     private final Boolean composite = true;
 
 
-    public UseNativeTypeType() {
+    public UseNativeType() {
         this.value = new Date();
     }
 
 
-    public UseNativeTypeType(final Date value) {
+    public UseNativeType(final Date value) {
         this.value = value;
     }
 
