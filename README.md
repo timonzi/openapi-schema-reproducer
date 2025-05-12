@@ -189,7 +189,9 @@ When I check the schema with Quarkus 3.20.0, I see the following schemas:
 
 The problem: I have the `ref` definition and also the properties and methods of `UseNativeType`.
 
-Side note: I don't understand why methods are part of the schema!?
+Side notes: 
+* I don't understand why methods are part of the schema!?
+* When I use `type = SchemaType.STRING` it works fine, but this was not needed with Quarkus 3.15.4
 
 #### Expected schemas
 
